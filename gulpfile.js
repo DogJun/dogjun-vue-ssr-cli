@@ -17,9 +17,8 @@ gulp.task('builddev', () => {
         babelrc: false,
         "plugins": [
           // 只编译import
-          "transform-es2015-modules-commonjs",
-          // 装饰器
-          ["@babel/plugin-proposal-decorators", { "legacy": true }]
+          "transform-decorators-legacy",
+          "transform-es2015-modules-commonjs"
         ]
       }))
       .pipe(gulp.dest('dist'))

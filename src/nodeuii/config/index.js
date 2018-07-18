@@ -15,24 +15,6 @@ const init = (app) => {
       // port: '8080'
     }
     config = _.extend(config, devConfig)
-    const webpack = require('webpack');
-    const devMiddleware = require('koa-webpack-dev-middleware')
-    const hotMiddleware = require('koa-webpack-hot-middleware')
-    // const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
-    const devWebpackConfig = require('../../webpack.config.js');
-    // 本地的开发环境默认就是使用 development mode
-    devWebpackConfig.mode = 'development'
-    const compiler = webpack(devWebpackConfig)
-    app.use(
-      devMiddleware(compiler, {
-        stats: {
-          colors: true,
-        },
-        // publicPath: devWebpackConfig.output.publicPath
-        publicPath: '/assets/'
-      })
-    )
-    app.use(hotMiddleware(compiler))
   }
   // 生产环境
   if (process.env.NODE_ENV === 'production') {

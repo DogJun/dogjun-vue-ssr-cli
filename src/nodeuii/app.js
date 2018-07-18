@@ -3,7 +3,6 @@ import configure from './config/index'
 import log4js from 'log4js'
 import errorHandler from './middlewares/errorHandler'
 import co from 'co'
-import render from 'koa-swig'
 import serve from 'koa-static'
 const { createContainer, Lifetime} = require('awilix')
 const { loadControllers, scopePerRequest } = require('awilix-koa')
@@ -30,15 +29,6 @@ container.loadModules([`${__dirname}/services/*.js`], {
 // 注册所有的路由
 app.use(loadControllers('controllers/*.js', {cwd: __dirname}))
 const config = configure(app)
-// 模板
-app.context.render = co.wrap(render({
-  // ...your setting 
-  root: config.viewDir,
-  autoescape: true,
-  cache: 'memory', // disable, set to false 
-  ext: 'html',
-  writeBody: false
-}));
 
 // 静态资源
 app.use(serve(config.staticDir))
