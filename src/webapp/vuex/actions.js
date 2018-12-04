@@ -1,5 +1,5 @@
 import request  from "axios";
-request.defaults.baseURL= "http://localhost:8081/";
+request.defaults.baseURL= "http://localhost:8080/";
 export const getTopics = ({commit,state})=>{
 	return request.get('users/1').then((response)=>{
 		if (response.statusText == 'OK') {

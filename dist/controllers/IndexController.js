@@ -54,7 +54,7 @@ let IndexController = (_dec = (0, _awilixKoa.route)('/'), _dec2 = (0, _awilixKoa
     };
   }
   createRenderer(serverbundle, template, clientManifest) {
-    return createBundleRenderer(serverbundle, {
+    return (0, _vueServerRenderer.createBundleRenderer)(serverbundle, {
       cache: LRU({
         max: 10000
       }),
@@ -69,8 +69,10 @@ let IndexController = (_dec = (0, _awilixKoa.route)('/'), _dec2 = (0, _awilixKoa
     const serverBundle = require('../assets/vue-ssr-server-bundle.json');
     const clientManifest = require('../assets/vue-ssr-client-manifest.json');
     const template = fs.readFileSync(rootPath + '/assets/index.html', 'utf-8');
+    // const $ = cheerio.load(template)
+    // $.title(this.metaDictionaries[ctx.url].title)
     const context = { url: ctx.url };
-    const ssrrender = this.createRenderer(serverBundle);
+    const ssrrender = this.createRenderer(serverBundle, template, clientManifest);
 
     function createSsrStreamPromise() {
       return new Promise((resolve, reject) => {
@@ -81,7 +83,7 @@ let IndexController = (_dec = (0, _awilixKoa.route)('/'), _dec2 = (0, _awilixKoa
         ctx.status = 200;
         ctx.type = 'html';
         ssrStream.on('error', err => {
-          reject(arr);
+          reject(err);
         }).pipe(ctx.res);
       });
     }

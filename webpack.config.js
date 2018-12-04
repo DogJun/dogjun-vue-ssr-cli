@@ -1,8 +1,9 @@
 const argv = require('yargs-parser')(process.argv.slice(2)) // 获取命令行参数
 const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { join,resolve } = require('path')
 const _mode = argv.mode || 'development'
-const _modeflag = _mode === 'production' ? true : false
+// const _modeflag = _mode === 'production' ? true : false
 let _mergeConfig = ''
 console.log(argv.env)
 if (argv.env === 'server') {
@@ -53,22 +54,27 @@ let defaultConfig = {
   //   aggregateTimeout: 300,
   //   poll: 1
   // },
-  optimization: {
-    // 原 CommonsChunkPlugin 配置
-    splitChunks: {
-      cacheGroups: {
-        common: {
-          chunks: 'all',
-          name: 'common',
-          minChunks: 2
-        }
-      }
-    },
-    runtimeChunk: {
-      name: 'runtime'
-    }
-  },
+  // optimization: {
+  //   // 原 CommonsChunkPlugin 配置
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       common: {
+  //         chunks: 'all',
+  //         name: 'common',
+  //         minChunks: 2
+  //       }
+  //     }
+  //   },
+  //   runtimeChunk: {
+  //     name: 'runtime'
+  //   }
+  // },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/webapp/index.html',
+      filename: 'index.html',
+      inject: false
+    }),
     ..._plugins,
   ],
   resolve: {

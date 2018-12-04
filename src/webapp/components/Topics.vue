@@ -1,13 +1,13 @@
 <template>
   <div class="topics">  
-  	<div v-for="topic in topics">
+  	<div v-for="(topic, index) in topics" :key="index">
   		<p>{{topic.title}}</p>
   	</div>
   </div>
 </template>
 
 <script>
-import   {mapGetters} from "vuex";
+import {mapGetters} from "vuex";
 const fetchInitialData = ({store})=>{
 	return store.dispatch("getTopics");
 }

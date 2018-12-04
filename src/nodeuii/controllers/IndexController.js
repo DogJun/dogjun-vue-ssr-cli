@@ -1,5 +1,5 @@
 import {route, GET} from 'awilix-koa'
-import { createBundlerRenderer } from 'vue-server-renderer'
+import { createBundleRenderer } from 'vue-server-renderer'
 const fs = require('fs')
 const path = require('path')
 const LRU = require('lru-cache')
@@ -33,8 +33,10 @@ export default class IndexController {
     const serverBundle = require('../assets/vue-ssr-server-bundle.json')
     const clientManifest = require('../assets/vue-ssr-client-manifest.json')
     const template = fs.readFileSync(rootPath + '/assets/index.html', 'utf-8')
+    // const $ = cheerio.load(template)
+    // $.title(this.metaDictionaries[ctx.url].title)
     const context = { url: ctx.url }
-    const ssrrender = this.createRenderer(serverBundle)
+    const ssrrender = this.createRenderer(serverBundle, template, clientManifest)
 
     function createSsrStreamPromise () {
       return new Promise((resolve, reject) => {
@@ -45,7 +47,7 @@ export default class IndexController {
         ctx.status = 200
         ctx.type = 'html'
         ssrStream.on('error', err => {
-          reject(arr)
+          reject(err)
         }).pipe(ctx.res)
       })
     }

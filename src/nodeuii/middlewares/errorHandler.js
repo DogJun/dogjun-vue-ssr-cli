@@ -4,6 +4,7 @@ let errorHandler = {
       try {
         await next()
       } catch (error) {
+        console.log(error)
         logger.error(error)
         ctx.status = error.status || 500
         ctx.body = 500
